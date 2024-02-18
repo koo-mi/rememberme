@@ -1,26 +1,26 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
-import Header from "./components/Header";
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import Header from './components/Header';
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "RememberMe",
-  description: "Flashcard app that helps users to remember things faster.",
+	title: 'RememberMe',
+	description: 'Flashcard app that helps users to remember things faster.'
 };
 
 export default function RootLayout({
-  children,
+	children
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en">
-      <body className={inter.className}>
-        <Header />
-        {children}
-        </body>
-    </html>
-  );
+	return (
+		<html lang="en">
+			<body className={inter.className}>
+				<Header />
+				{children}
+			</body>
+		</html>
+	);
 }

@@ -1,34 +1,34 @@
 .card {
-  width: 100%;
-  max-width: 1280px;
-  height: 14rem;
-  perspective: 1800px;
+	width: 100%;
+	max-width: 1280px;
+	height: 14rem;
+	perspective: 1800px;
 }
 
 .card__inner {
-  width: 100%;
-  height: 100%;
-  transition: transform 1s;
-  transform-style: preserve-3d;
-  cursor: pointer;
-  position: relative;
+	width: 100%;
+	height: 100%;
+	transition: transform 1s;
+	transform-style: preserve-3d;
+	cursor: pointer;
+	position: relative;
 }
 
 .card__inner.flip {
-  transform: rotateX(180deg);
+	transform: rotateX(180deg);
 }
 
 .card__face {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  padding: 12px 0px;
-  backface-visibility: hidden;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.25);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	padding: 12px 0px;
+	backface-visibility: hidden;
+	overflow: hidden;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px 2px rgba(0, 0, 0, 0.25);
 }
 
 .card__face--back {
-    transform: rotateX(180deg);
+	transform: rotateX(180deg);
 }
