@@ -26,18 +26,28 @@ export default function cardSet({ params }: { params: { setId: string } }) {
 	const [current, setCurrent] = useState(1);
 	const [total, setTotal] = useState(1);
 	const [complete, setComplete] = useState(false);
+	const [cardSetInfo, setCardSetInfo] = useState('');
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function getCardSetData() {
-			const res = await fetch('/api/flashcard', {
+			const cardRes = await fetch('/api/flashcard', {
 				headers: {
 					cardSetId: params.setId
 				}
 			});
-			const cardData = await res.json();
+			const cardData = await cardRes.json();
 			setCardList(cardData);
 			setTotal(cardData.length);
+
+			const setRes = await fetch('/api/cardset', {
+				headers: {
+					cardSetId: params.setId
+				}
+			});
+			const setData = await setRes.json();
+			setCardSetInfo(setData);
+
 			setIsLoading(false);
 		}
 
@@ -82,7 +92,7 @@ export default function cardSet({ params }: { params: { setId: string } }) {
 	return (
 		<>
 			<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
-				<h1 className="font-semibold text-lg">Geography Midterm</h1>
+				<h1 className="font-semibold text-lg">{cardSetInfo.title}</h1>
 				{!complete ? (
 					<>
 						<Card cardList={cardList} current={current} />
