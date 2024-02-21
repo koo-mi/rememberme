@@ -5,7 +5,7 @@ const HomeCardLink = ({ title, qty, author, link }) => {
 
 	return (
 		<article
-			className="border-black border rounded px-4 py-3"
+			className="border-black border rounded px-4 py-3 cursor-pointer"
 			onClick={() => {
 				router.push(link);
 			}}
