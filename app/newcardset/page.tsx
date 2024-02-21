@@ -63,6 +63,11 @@ const newCardSet = () => {
 				>
 					<p className="text-2xl">+</p>
 				</div>
+				<div className="flex justify-end mt-3">
+					<button className="py-2 px-3 text-white bg-blue-600 rounded w-24">
+						Create
+					</button>
+				</div>
 			</form>
 		</main>
 	);

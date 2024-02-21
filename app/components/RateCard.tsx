@@ -1,12 +1,6 @@
 import './RateCard.css';
 
-const RateCard = ({
-	changeCurrent,
-	current,
-	total,
-	addToNextList,
-	switchList
-}) => {
+const RateCard = ({ changeCurrent, current, addToNextSet }) => {
 	function handleClick(e) {
 		e.preventDefault();
 		const value = e.target.value;
@@ -14,14 +8,14 @@ const RateCard = ({
 
 		if (value === '1') {
 			if (random > 0.8) {
-				addToNextList(current - 1);
+				addToNextSet(current - 1);
 			}
 		} else if (value === '2') {
 			if (random > 0.4) {
-				addToNextList(current - 1);
+				addToNextSet(current - 1);
 			}
 		} else {
-			addToNextList(current - 1);
+			addToNextSet(current - 1);
 		}
 		changeCurrent(1);
 	}
