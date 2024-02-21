@@ -11,6 +11,7 @@ export const setData = [
 		description: 'These are random questions created by ChatGPT',
 		author: 'Mikael Koo',
 		isPrivate: false,
+		total: 19,
 		userId: 'koo-mi'
 	},
 	{
@@ -18,6 +19,7 @@ export const setData = [
 		description: 'These are random questions created by ChatGPT',
 		author: 'Mikael Koo',
 		isPrivate: false,
+		total: 12,
 		userId: 'koo-mi'
 	},
 	{
@@ -25,6 +27,7 @@ export const setData = [
 		description: 'These are random questions created by ChatGPT',
 		author: 'Mikael Koo',
 		isPrivate: false,
+		total: 15,
 		userId: 'koo-mi'
 	}
 ];

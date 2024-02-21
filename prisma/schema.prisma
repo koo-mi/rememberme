@@ -27,6 +27,7 @@ model CardSet {
   description String
   author      String
   isPrivate   Boolean
+  total       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   User        User     @relation(fields: [userId], references: [id])

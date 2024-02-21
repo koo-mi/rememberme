@@ -2,31 +2,10 @@
 import Card from '../../components/Card';
 import NavigateCard from '../../components/NavigateCard';
 import RateCard from '../../components/RateCard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function cardSet({ params }: { params: { setId: string } }) {
-	const [cardList, setCardList] = useState([
-		{
-			question: 'What is the capital city of France?',
-			answer: 'Paris',
-			hint: 'P____'
-		},
-		{
-			question: 'What is the capital city of Korea?',
-			answer: 'Seoul',
-			hint: 'S____'
-		},
-		{
-			question: 'What is the capital city of Japan?',
-			answer: 'Tokyo',
-			hint: 'T____'
-		},
-		{
-			question: 'What is the capital city of Canada?',
-			answer: 'Ottawa',
-			hint: 'O_____'
-		}
-	]);
+	const [cardList, setCardList] = useState([]);
 
 	const [nextSet, setNextSet] = useState(new Set());
 
@@ -39,15 +18,35 @@ export default function cardSet({ params }: { params: { setId: string } }) {
 		if (nextSet.has(index)) {
 			const newSet = new Set(nextSet);
 			newSet.delete(index);
-			console.log(newSet);
 			setNextSet(newSet);
 		}
 	}
 
 	let previousList = [];
 	const [current, setCurrent] = useState(1);
-	const [total, setTotal] = useState(4);
+	const [total, setTotal] = useState(1);
 	const [complete, setComplete] = useState(false);
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		async function getCardSetData() {
+			const res = await fetch('/api/flashcard', {
+				headers: {
+					cardSetId: params.setId
+				}
+			});
+			const cardData = await res.json();
+			setCardList(cardData);
+			setTotal(cardData.length);
+			setIsLoading(false);
+		}
+
+		getCardSetData();
+	}, []);
+
+	if (isLoading) {
+		return;
+	}
 
 	// Move the card to other index
 	function changeCurrent(num: number) {
@@ -79,8 +78,6 @@ export default function cardSet({ params }: { params: { setId: string } }) {
 	if (current > total && total > 0) {
 		switchList();
 	}
-
-	console.log(nextSet);
 
 	return (
 		<>

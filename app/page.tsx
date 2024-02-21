@@ -1,8 +1,21 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import HomeCardLink from './components/HomeCardLink';
 
 export default function Home() {
+	const [recommendList, setRecommendList] = useState([]);
+
+	useEffect(() => {
+		async function homeInfo() {
+			const res = await fetch('/api/home');
+			const homeData = await res.json();
+			setRecommendList(homeData);
+		}
+
+		homeInfo();
+	}, []);
+
 	return (
 		<>
 			<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
@@ -48,30 +61,17 @@ export default function Home() {
 				<div>
 					<h2 className="font-semibold text-lg">Recommended Sets</h2>
 					<div className="grid grid-cols-2 grid-rows-2 gap-2 mt-3">
-						<HomeCardLink
-							title="Card Set 35"
-							qty={125}
-							author={'Mikael Ko'}
-							link={'/cardset/35'}
-						/>
-						<HomeCardLink
-							title="Card Set 41"
-							qty={13}
-							author={'Mikael Kooo'}
-							link={'/cardset/41'}
-						/>
-						<HomeCardLink
-							title="Card Set 35"
-							qty={125}
-							author={'Mikael Ko'}
-							link={'/cardset/35'}
-						/>
-						<HomeCardLink
-							title="Card Set 41"
-							qty={13}
-							author={'Mikael Kooo'}
-							link={'/cardset/41'}
-						/>
+						{recommendList.map((set) => {
+							return (
+								<HomeCardLink
+									key={set.id}
+									title={set.title}
+									qty={set.total}
+									author={set.author}
+									link={`/cardset/${set.id}`}
+								/>
+							);
+						})}
 					</div>
 				</div>
 			</main>

@@ -13,14 +13,15 @@ async function main() {
 	}
 
 	for (let set of setData) {
-		const { title, description, author, isPrivate, userId } = set;
+		const { title, description, author, isPrivate, userId, total } = set;
 		await prisma.cardSet.create({
 			data: {
 				title,
 				description,
 				author,
 				isPrivate,
-				userId
+				userId,
+				total
 			}
 		});
 	}
