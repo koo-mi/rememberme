@@ -5,6 +5,7 @@ import HomeCardLink from './components/HomeCardLink';
 
 export default function Home() {
 	const [recommendList, setRecommendList] = useState([]);
+	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
 		async function homeInfo() {
@@ -14,7 +15,12 @@ export default function Home() {
 		}
 
 		homeInfo();
+		setIsLoading(false);
 	}, []);
+
+	if (isLoading) {
+		return;
+	}
 
 	return (
 		<>
