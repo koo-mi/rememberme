@@ -30,7 +30,7 @@ model CardSet {
   total       Int
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  User        User     @relation(fields: [userId], references: [id])
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId      String
   Card        Card[]
 }
@@ -43,6 +43,6 @@ model Card {
   isStar    Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  CardSet   CardSet  @relation(fields: [cardSetId], references: [id])
+  CardSet   CardSet  @relation(fields: [cardSetId], references: [id], onDelete: Cascade)
   cardSetId Int
 }

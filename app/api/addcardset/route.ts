@@ -2,19 +2,36 @@ import prisma from '../../../db';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-	const { title, description, author, isPrivate, total, userId } =
-		await req.json();
+	const { title, description, isPrivate, userId, cards } = await req.json();
 
 	await prisma.cardSet.create({
 		data: {
 			title,
 			description,
-			author,
+			author: userId,
 			isPrivate,
-			total,
+			total: cards.length,
 			userId
 		}
 	});
+
+	const newSetId = await prisma.cardSet.findFirst({
+		where: {
+			title,
+			author: userId,
+			userId
+		}
+	});
+
+	for (let i in cards) {
+		await prisma.card.create({
+			data: {
+				cardSetId: newSetId.id,
+				question: cards[i].question,
+				answer: cards[i].answer
+			}
+		});
+	}
 
 	return NextResponse.json({ message: 'complete' });
 }
