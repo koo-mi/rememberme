@@ -9,7 +9,10 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 	const [isLoading, setIsLoading] = useState(true);
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
-	const [cardData, setCardData] = useState([{ question: '', answer: '' }]);
+	const [cardData, setCardData] = useState([
+		{ id: 0, question: '', answer: '' }
+	]);
+	const [deleted, setDeleted] = useState<number[]>([]);
 
 	useEffect(() => {
 		async function getSetInfo() {
@@ -41,13 +44,18 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 	}
 
 	function addInput() {
-		setCardData([...cardData, { question: '', answer: '' }]);
+		setCardData([...cardData, { id: 0, question: '', answer: '' }]);
 	}
 
 	function removeInput(i) {
 		if (!cardData[1]) {
-			return setCardData([{ question: '', answer: '' }]);
+			return setCardData([{ id: 0, question: '', answer: '' }]);
 		}
+		let newInput = [...cardData];
+		let newDeleted = [...deleted, cardData[i].id];
+		newInput.splice(i, 1);
+		setCardData(newInput);
+		setDeleted(newDeleted);
 	}
 
 	async function handleSubmit(e) {
@@ -57,7 +65,8 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 			description: e.target.description.value,
 			cards: cardData,
 			userId: 'koo-mi',
-			isPrivate: false
+			isPrivate: false,
+			deleted
 		};
 
 		const res = await fetch(`/api/cardset/${params.setId}`, {
@@ -120,7 +129,7 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 				</div>
 				<div className="flex justify-end mt-3">
 					<button className="py-2 px-3 text-white bg-blue-600 rounded w-24">
-						Create
+						Edit
 					</button>
 				</div>
 			</form>
