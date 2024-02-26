@@ -1,11 +1,11 @@
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
 const CardInput = ({ item, i, changeQuizInput, removeInput }) => {
-	function handleFrontChange(e) {
+	function handleQuestionChange(e) {
 		changeQuizInput(i, true, e.target.value);
 	}
 
-	function handleBackChange(e) {
+	function handleAnswerChange(e) {
 		changeQuizInput(i, false, e.target.value);
 	}
 
@@ -23,19 +23,19 @@ const CardInput = ({ item, i, changeQuizInput, removeInput }) => {
 				<input
 					className="border-b border-black"
 					type="text"
-					value={item.front || ''}
-					onChange={handleFrontChange}
+					value={item.question || ''}
+					onChange={handleQuestionChange}
 				/>
-				<label className="text-xs text-gray-400">Front</label>
+				<label className="text-xs text-gray-400">Question</label>
 			</div>
 			<div className="flex flex-col gap-1 p-2">
 				<input
 					className="border-b border-black"
 					type="text"
-					value={item.back || ''}
-					onChange={handleBackChange}
+					value={item.answer || ''}
+					onChange={handleAnswerChange}
 				/>
-				<label className="text-xs text-gray-400">Back</label>
+				<label className="text-xs text-gray-400">Answer</label>
 			</div>
 		</div>
 	);

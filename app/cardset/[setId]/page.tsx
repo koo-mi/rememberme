@@ -1,10 +1,15 @@
 'use client';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import Card from '../../components/Card';
 import NavigateCard from '../../components/NavigateCard';
 import RateCard from '../../components/RateCard';
-import { useEffect, useState } from 'react';
+import EditRoundedIcon from '@mui/icons-material/EditRounded';
+import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 
-export default function cardSet({ params }: { params: { setId: string } }) {
+export default function CardSet({ params }: { params: { setId: string } }) {
+	const router = useRouter();
+
 	const [cardList, setCardList] = useState([]);
 
 	const [nextSet, setNextSet] = useState(new Set());
@@ -89,10 +94,34 @@ export default function cardSet({ params }: { params: { setId: string } }) {
 		switchList();
 	}
 
+	function handleEdit() {
+		router.push(`/cardset/${params.setId}/edit`);
+	}
+
+	async function handleDelete() {
+		const res = await fetch(`/api/cardset/${params.setId}`, {
+			method: 'DELETE',
+			headers: {
+				cardSetId: params.setId
+			}
+		});
+
+		router.push('/');
+	}
+
 	return (
 		<>
 			<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
-				<h1 className="font-semibold text-lg">{cardSetInfo.title}</h1>
+				<div className="flex flex-col">
+					<h1 className="font-semibold text-lg">{cardSetInfo.title}</h1>
+					<div className="flex justify-between items-center">
+						<h2 className="text-sm">By Author</h2>
+						<div className="flex gap-2">
+							<EditRoundedIcon onClick={handleEdit} />
+							<DeleteRoundedIcon onClick={handleDelete} />
+						</div>
+					</div>
+				</div>
 				{!complete ? (
 					<>
 						<Card cardList={cardList} current={current} />

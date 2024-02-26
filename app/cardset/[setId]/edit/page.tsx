@@ -1,31 +1,53 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import CardInput from '../components/CardInput';
+import CardInput from '@/app/components/CardInput';
 
-const NewCardSet = () => {
+const EditCardSet = ({ params }: { params: { setId: string } }) => {
 	const router = useRouter();
 
-	const [quizInput, setQuizInput] = useState([{ question: '', answer: '' }]);
+	const [isLoading, setIsLoading] = useState(true);
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
+	const [cardData, setCardData] = useState([{ question: '', answer: '' }]);
+
+	useEffect(() => {
+		async function getSetInfo() {
+			const res = await fetch(`/api/cardset/${params.setId}`, {
+				method: 'GET',
+				headers: {
+					cardSetId: params.setId
+				}
+			});
+			const cardSetData = await res.json();
+
+			setTitle(cardSetData.title);
+			setDescription(cardSetData.description);
+			setCardData(cardSetData.Card);
+			setIsLoading(false);
+		}
+
+		getSetInfo();
+	}, []);
+
+	if (isLoading) {
+		return;
+	}
 
 	function changeQuizInput(i: number, question: boolean, change: string) {
-		const newInput = [...quizInput];
+		const newInput = [...cardData];
 		question ? (newInput[i].question = change) : (newInput[i].answer = change);
-		setQuizInput(newInput);
+		setCardData(newInput);
 	}
 
 	function addInput() {
-		setQuizInput([...quizInput, { question: '', answer: '' }]);
+		setCardData([...cardData, { question: '', answer: '' }]);
 	}
 
 	function removeInput(i) {
-		if (!quizInput[1]) {
-			return setQuizInput([{ question: '', answer: '' }]);
+		if (!cardData[1]) {
+			return setCardData([{ question: '', answer: '' }]);
 		}
-
-		let newInput = [...quizInput];
-		newInput.splice(i, 1);
-		setQuizInput(newInput);
 	}
 
 	async function handleSubmit(e) {
@@ -33,25 +55,26 @@ const NewCardSet = () => {
 		const data = {
 			title: e.target.title.value,
 			description: e.target.description.value,
-			cards: quizInput,
+			cards: cardData,
 			userId: 'koo-mi',
 			isPrivate: false
 		};
 
-		const res = await fetch('/api/addcardset', {
-			method: 'POST',
+		const res = await fetch(`/api/cardset/${params.setId}`, {
+			method: 'PUT',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
+				cardSetId: params.setId
 			},
 			body: JSON.stringify(data)
 		});
 
-		router.push('/');
+		router.push(`/cardset/${params.setId}`);
 	}
 
 	return (
 		<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
-			<h1 className="font-semibold text-lg">Create New Card Set</h1>
+			<h1 className="font-semibold text-lg">Edit Card Set</h1>
 			<form className="flex flex-col gap-3" onSubmit={handleSubmit}>
 				{/* Title */}
 				<div className="flex flex-col gap-1">
@@ -60,6 +83,10 @@ const NewCardSet = () => {
 						className="rounded border border-black"
 						name="title"
 						type="text"
+						value={title}
+						onChange={(e) => {
+							setTitle(e.target.value);
+						}}
 					/>
 				</div>
 				{/* Description */}
@@ -69,10 +96,14 @@ const NewCardSet = () => {
 						className="rounded border border-black"
 						name="description"
 						rows={4}
+						value={description}
+						onChange={(e) => {
+							setDescription(e.target.value);
+						}}
 					/>
 				</div>
 				{/* CardInput */}
-				{quizInput.map((item, i) => (
+				{cardData.map((item, i) => (
 					<CardInput
 						key={i}
 						item={item}
@@ -97,4 +128,4 @@ const NewCardSet = () => {
 	);
 };
 
-export default NewCardSet;
+export default EditCardSet;
