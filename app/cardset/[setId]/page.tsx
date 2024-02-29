@@ -6,6 +6,7 @@ import NavigateCard from '../../components/NavigateCard';
 import RateCard from '../../components/RateCard';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
+import CardFinish from '@/app/components/CardFinish';
 
 export default function CardSet({ params }: { params: { setId: string } }) {
 	const router = useRouter();
@@ -117,8 +118,14 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 					<div className="flex justify-between items-center">
 						<h2 className="text-sm">By Author</h2>
 						<div className="flex gap-2">
-							<EditRoundedIcon onClick={handleEdit} />
-							<DeleteRoundedIcon onClick={handleDelete} />
+							<EditRoundedIcon
+								className="cursor-pointer"
+								onClick={handleEdit}
+							/>
+							<DeleteRoundedIcon
+								className="cursor-pointer"
+								onClick={handleDelete}
+							/>
 						</div>
 					</div>
 				</div>
@@ -139,7 +146,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 						/>
 					</>
 				) : (
-					'Complete!'
+					<CardFinish />
 				)}
 			</main>
 		</>
