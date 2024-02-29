@@ -3,7 +3,8 @@ import HomeRoundedIcon from '@mui/icons-material/HomeRounded';
 import './Card';
 import { useRouter } from 'next/navigation';
 
-const CardFinish = () => {
+// When cardSet finishes, render this component to Replay or go to Home
+const CardFinish = ({ replay }) => {
 	const router = useRouter();
 
 	// When click Home Icon -> Redirect to HomePage
@@ -12,7 +13,9 @@ const CardFinish = () => {
 	}
 
 	// When click Replay Icon -> Restart the current
-	function handleReplayIcon() {}
+	function handleReplayIcon() {
+		replay();
+	}
 
 	return (
 		<div className="card">

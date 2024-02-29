@@ -12,7 +12,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 	const router = useRouter();
 
 	const [cardList, setCardList] = useState([]);
-
+	const [originalSet, setOriginalSet] = useState([]);
 	const [nextSet, setNextSet] = useState(new Set());
 
 	function addToNextSet(index: number) {
@@ -26,6 +26,15 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 			newSet.delete(index);
 			setNextSet(newSet);
 		}
+	}
+
+	console.log(originalSet);
+
+	function replay() {
+		setCardList(originalSet);
+		setTotal(originalSet.length);
+		setCurrent(1);
+		setComplete(false);
 	}
 
 	let previousList = [];
@@ -44,6 +53,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 			});
 			const cardData = await cardRes.json();
 			setCardList(cardData);
+			setOriginalSet(cardData);
 			setTotal(cardData.length);
 
 			const setRes = await fetch('/api/cardset', {
@@ -146,7 +156,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 						/>
 					</>
 				) : (
-					<CardFinish />
+					<CardFinish replay={replay} />
 				)}
 			</main>
 		</>
