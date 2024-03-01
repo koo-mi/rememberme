@@ -10,7 +10,7 @@ const Header = () => {
 	const { data: session } = useSession();
 
 	return (
-		<header className="flex justify-center items-center max-w-7xl p-4 bg-blue-200 m-auto">
+		<header className="flex justify-center items-center p-4 bg-blue-200 m-auto">
 			<div className="flex justify-between items-center w-full">
 				<Link href="/">
 					<MenuIcon />

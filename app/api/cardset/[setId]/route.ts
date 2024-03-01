@@ -3,11 +3,17 @@ import { NextResponse } from 'next/server';
 
 /* Delete cardSet by ID */
 export async function DELETE(req: Request) {
-	const cardSetId = req.headers.get('cardSetId');
+	const cardSetId = Number(req.headers.get('cardSetId'));
 
 	await prisma.cardSet.delete({
 		where: {
-			id: Number(cardSetId)
+			id: cardSetId
+		}
+	});
+
+	await prisma.recent.deleteMany({
+		where: {
+			cardSetId
 		}
 	});
 
