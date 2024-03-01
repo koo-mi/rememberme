@@ -21,7 +21,7 @@ const RateCard = ({ changeCurrent, current, addToNextSet }) => {
 	}
 
 	return (
-		<form className="flex justify-center items-center gap-5 py-4">
+		<form className="flex justify-center items-center gap-5 pt-4">
 			<button value={1} onClick={handleClick}>
 				Excellent
 			</button>

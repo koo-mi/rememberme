@@ -124,41 +124,54 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 	return (
 		<>
 			<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
-				<div className="flex flex-col">
-					<h1 className="font-semibold text-lg">{cardSetInfo.title}</h1>
-					<div className="flex justify-between items-center">
-						<h2 className="text-sm">By Author</h2>
-						<div className="flex gap-2">
-							<EditRoundedIcon
-								className="cursor-pointer"
-								onClick={handleEdit}
+				<div className="flex flex-col w-full gap-2">
+					{/* Main Content */}
+					{!complete ? (
+						<>
+							<Card cardList={cardList} current={current} />
+							<RateCard
+								changeCurrent={changeCurrent}
+								current={current}
+								addToNextSet={addToNextSet}
 							/>
-							<DeleteRoundedIcon
-								className="cursor-pointer"
-								onClick={handleDelete}
+							<NavigateCard
+								current={current}
+								total={total}
+								changeCurrent={changeCurrent}
+								addToNextSet={addToNextSet}
+								removeFromNextSet={removeFromNextSet}
 							/>
+						</>
+					) : (
+						<CardFinish replay={replay} />
+					)}
+
+					{/* Info Container */}
+					<div className="border-t py-3">
+						{/* Title */}
+						<h1 className="font-semibold text-lg">{cardSetInfo.title}</h1>
+
+						{/* Author */}
+						<div className="flex justify-between items-center mb-3">
+							<h2 className="text-sm">By {cardSetInfo.author}</h2>
+							<div className="flex gap-2">
+								<EditRoundedIcon
+									className="cursor-pointer"
+									onClick={handleEdit}
+								/>
+								<DeleteRoundedIcon
+									className="cursor-pointer"
+									onClick={handleDelete}
+								/>
+							</div>
+						</div>
+
+						{/* Description */}
+						<div className="bg-gray-200 rounded w-full p-2">
+							<p className="text-sm">{cardSetInfo.description}</p>
 						</div>
 					</div>
 				</div>
-				{!complete ? (
-					<>
-						<Card cardList={cardList} current={current} />
-						<RateCard
-							changeCurrent={changeCurrent}
-							current={current}
-							addToNextSet={addToNextSet}
-						/>
-						<NavigateCard
-							current={current}
-							total={total}
-							changeCurrent={changeCurrent}
-							addToNextSet={addToNextSet}
-							removeFromNextSet={removeFromNextSet}
-						/>
-					</>
-				) : (
-					<CardFinish replay={replay} />
-				)}
 			</main>
 		</>
 	);
