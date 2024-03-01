@@ -1,12 +1,23 @@
 import prisma from '../../../db';
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
-	const recommendData = await prisma.cardSet.findMany({
+export async function GET(req: Request) {
+	const email = req.headers.get('email');
+
+	const id = await prisma.user.findFirst({
 		where: {
-			userId: 'koo-mi'
+			email
+		},
+		select: {
+			id: true
 		}
 	});
 
-	return NextResponse.json(recommendData);
+	const myList = await prisma.cardSet.findMany({
+		where: {
+			userId: id?.id
+		}
+	});
+
+	return NextResponse.json(myList);
 }

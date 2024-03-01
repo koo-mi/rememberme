@@ -28,8 +28,6 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 		}
 	}
 
-	console.log(originalSet);
-
 	function replay() {
 		setCardList(originalSet);
 		setTotal(originalSet.length);

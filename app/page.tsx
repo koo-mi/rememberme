@@ -1,24 +1,31 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import HomeCardLink from './components/HomeCardLink';
+import { useSession } from 'next-auth/react';
 
 export default function Home() {
-	const [recommendList, setRecommendList] = useState([]);
+	const [cardSetList, setCardSetList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
+
+	const { data: session } = useSession();
 
 	useEffect(() => {
 		async function homeInfo() {
-			const res = await fetch('/api/home');
+			const res = await fetch('/api/home', {
+				headers: {
+					email: session?.user.email
+				}
+			});
 			const homeData = await res.json();
-			setRecommendList(homeData);
+			setCardSetList(homeData);
 		}
 
 		homeInfo();
 		setIsLoading(false);
-	}, []);
+	}, [session]);
 
 	if (isLoading) {
+		console.log('load!');
 		return;
 	}
 
@@ -47,27 +54,25 @@ export default function Home() {
 				{/* My Sets */}
 				<div>
 					<h2 className="font-semibold text-lg">My Sets</h2>
-					<div className="grid grid-cols-2 gap-2 mt-3">
-						<HomeCardLink
-							title="Card Set 3"
-							qty={12}
-							author={'Mikael Koo'}
-							link={'/cardset/3'}
-						/>
-						<HomeCardLink
-							title="Card Set 4"
-							qty={13}
-							author={'Mikael Koo'}
-							link={'/cardset/4'}
-						/>
+					<div className="grid grid-cols-2 grid-rows-2 gap-2 mt-3">
+						{cardSetList.map((set) => {
+							return (
+								<HomeCardLink
+									key={set.id}
+									title={set.title}
+									qty={set.total}
+									author={set.author}
+									link={`/cardset/${set.id}`}
+								/>
+							);
+						})}
 					</div>
 				</div>
 
-				{/* Recommend */}
 				<div>
 					<h2 className="font-semibold text-lg">Recommended Sets</h2>
 					<div className="grid grid-cols-2 grid-rows-2 gap-2 mt-3">
-						{recommendList.map((set) => {
+						{cardSetList.map((set) => {
 							return (
 								<HomeCardLink
 									key={set.id}
