@@ -7,9 +7,11 @@ import RateCard from '../../components/RateCard';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import CardFinish from '@/app/components/CardFinish';
+import { useSession } from 'next-auth/react';
 
 export default function CardSet({ params }: { params: { setId: string } }) {
 	const router = useRouter();
+	const { data: session } = useSession();
 
 	const [cardList, setCardList] = useState([]);
 	const [originalSet, setOriginalSet] = useState([]);
@@ -46,7 +48,8 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 		async function getCardSetData() {
 			const cardRes = await fetch('/api/flashcard', {
 				headers: {
-					cardSetId: params.setId
+					cardSetId: params.setId,
+					id: session?.user.id || ''
 				}
 			});
 			const cardData = await cardRes.json();
@@ -66,7 +69,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 		}
 
 		getCardSetData();
-	}, []);
+	}, [session]);
 
 	if (isLoading) {
 		return;

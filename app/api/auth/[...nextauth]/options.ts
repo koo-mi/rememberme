@@ -30,6 +30,7 @@ export const options: NextAuthOptions = {
 			return { ...token, ...user };
 		},
 		async session({ session, token }) {
+			session.user.id = token.id;
 			session.user.role = token.role;
 			return session;
 		}

@@ -2,22 +2,49 @@ import prisma from '../../../db';
 import { NextResponse } from 'next/server';
 
 export async function GET(req: Request) {
-	const email = req.headers.get('email');
+	const id = req.headers.get('id');
 
-	const id = await prisma.user.findFirst({
-		where: {
-			email
-		},
+	const recentSetId = await prisma.recent.findMany({
 		select: {
-			id: true
-		}
+			cardSetId: true
+		},
+		where: {
+			userId: id
+		},
+		orderBy: {
+			updatedAt: 'desc'
+		},
+		take: 4
 	});
+
+	const recentList = [];
+	for (const i in recentSetId) {
+		const id = recentSetId[i].cardSetId;
+		const set = await prisma.cardSet.findFirst({
+			where: {
+				id
+			}
+		});
+		recentList.push(set);
+	}
 
 	const myList = await prisma.cardSet.findMany({
 		where: {
-			userId: id?.id
+			userId: id || ''
 		}
 	});
 
-	return NextResponse.json(myList);
+	const recList = await prisma.cardSet.findMany({
+		where: {
+			userId: 'koo-mi'
+		}
+	});
+
+	const homeData = {
+		recentList,
+		myList,
+		recList
+	};
+
+	return NextResponse.json(homeData);
 }

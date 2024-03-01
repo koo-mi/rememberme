@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardInput from '../components/CardInput';
 import { useSession } from 'next-auth/react';
@@ -7,8 +7,6 @@ import { useSession } from 'next-auth/react';
 const NewCardSet = () => {
 	const router = useRouter();
 	const { data: session } = useSession();
-
-	console.log(session);
 
 	const [quizInput, setQuizInput] = useState([{ question: '', answer: '' }]);
 
@@ -38,7 +36,7 @@ const NewCardSet = () => {
 			title: e.target.title.value,
 			description: e.target.description.value,
 			cards: quizInput,
-			email: session?.user.email,
+			id: session?.user.id || '',
 			isPrivate: false,
 			author: session?.user.name
 		};

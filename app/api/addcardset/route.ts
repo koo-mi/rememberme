@@ -2,17 +2,8 @@ import prisma from '../../../db';
 import { NextResponse } from 'next/server';
 
 export async function POST(req: Request) {
-	const { title, description, isPrivate, author, cards, email, userId } =
+	const { title, description, isPrivate, author, cards, id, userId } =
 		await req.json();
-
-	const id = await prisma.user.findFirst({
-		where: {
-			email
-		},
-		select: {
-			id: true
-		}
-	});
 
 	await prisma.cardSet.create({
 		data: {
@@ -21,7 +12,7 @@ export async function POST(req: Request) {
 			author,
 			isPrivate,
 			total: cards.length,
-			userId: id.id
+			userId: id
 		}
 	});
 

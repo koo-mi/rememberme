@@ -4,7 +4,9 @@ import HomeCardLink from './components/HomeCardLink';
 import { useSession } from 'next-auth/react';
 
 export default function Home() {
-	const [cardSetList, setCardSetList] = useState([]);
+	const [mySetList, setMySetList] = useState([]);
+	const [myRecList, setMyRecList] = useState([]);
+	const [recentList, setRecentList] = useState([]);
 	const [isLoading, setIsLoading] = useState(true);
 
 	const { data: session } = useSession();
@@ -13,11 +15,14 @@ export default function Home() {
 		async function homeInfo() {
 			const res = await fetch('/api/home', {
 				headers: {
-					email: session?.user.email
+					id: session?.user.id
 				}
 			});
 			const homeData = await res.json();
-			setCardSetList(homeData);
+
+			setMySetList(homeData.myList);
+			setMyRecList(homeData.recList);
+			setRecentList(homeData.recentList);
 		}
 
 		homeInfo();
@@ -25,7 +30,6 @@ export default function Home() {
 	}, [session]);
 
 	if (isLoading) {
-		console.log('load!');
 		return;
 	}
 
@@ -36,18 +40,17 @@ export default function Home() {
 				<div>
 					<h2 className="font-semibold text-lg">Recent</h2>
 					<div className="grid grid-cols-2 gap-2 mt-3">
-						<HomeCardLink
-							title="Card Set 1"
-							qty={10}
-							author={'Mikael Koo'}
-							link={'/cardset/1'}
-						/>
-						<HomeCardLink
-							title="Card Set 2"
-							qty={11}
-							author={'Mikael Koo'}
-							link={'/cardset/2'}
-						/>
+						{recentList.map((set) => {
+							return (
+								<HomeCardLink
+									key={set.id}
+									title={set.title}
+									qty={set.total}
+									author={set.author}
+									link={`/cardset/${set.id}`}
+								/>
+							);
+						})}
 					</div>
 				</div>
 
@@ -55,7 +58,7 @@ export default function Home() {
 				<div>
 					<h2 className="font-semibold text-lg">My Sets</h2>
 					<div className="grid grid-cols-2 grid-rows-2 gap-2 mt-3">
-						{cardSetList.map((set) => {
+						{mySetList.map((set) => {
 							return (
 								<HomeCardLink
 									key={set.id}
@@ -72,7 +75,7 @@ export default function Home() {
 				<div>
 					<h2 className="font-semibold text-lg">Recommended Sets</h2>
 					<div className="grid grid-cols-2 grid-rows-2 gap-2 mt-3">
-						{cardSetList.map((set) => {
+						{myRecList.map((set) => {
 							return (
 								<HomeCardLink
 									key={set.id}
