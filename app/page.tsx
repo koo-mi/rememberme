@@ -38,8 +38,8 @@ export default function Home() {
 			<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
 				{/* Recent */}
 				<div>
-					<h2 className="font-semibold text-lg">Recent</h2>
-					<div className="grid grid-cols-2 lg:grid-cols-5 gap-2 mt-3">
+					<h2 className="font-semibold text-xl mx-2">Recent</h2>
+					<div className="grid grid-cols-2 lg:grid-cols-5 gap-2 mt-3 mb-1">
 						{recentList.map((set) => {
 							return (
 								<HomeCardLink
@@ -56,7 +56,7 @@ export default function Home() {
 
 				{/* My Sets */}
 				<div>
-					<h2 className="font-semibold text-lg">My Sets</h2>
+					<h2 className="font-semibold text-xl mx-2">My Sets</h2>
 					<div className={`grid grid-cols-2 lg:grid-cols-5 gap-2 mt-3`}>
 						{mySetList.map((set) => {
 							return (
@@ -73,7 +73,7 @@ export default function Home() {
 				</div>
 
 				<div>
-					<h2 className="font-semibold text-lg">Recommended Sets</h2>
+					<h2 className="font-semibold text-xl mx-2">Recommended Sets</h2>
 					<div className="grid grid-cols-2 lg:grid-cols-5 gap-2 mt-3">
 						{myRecList.map((set) => {
 							return (

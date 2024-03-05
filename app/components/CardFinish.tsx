@@ -19,7 +19,7 @@ const CardFinish = ({ replay }) => {
 
 	return (
 		<div className="card">
-			<div className="card__face--complete">
+			<div className="card__face--complete bg-white">
 				<h3 className="font-semibold">
 					Great job! You&apos;ve finished all the cards.
 				</h3>
@@ -27,14 +27,14 @@ const CardFinish = ({ replay }) => {
 					<div className="complete__icon-container">
 						<HomeRoundedIcon
 							fontSize="inherit"
-							className="pointer-cursor complete__icon"
+							className="pointer-cursor icon-enlarge"
 							onClick={handleHomeIcon}
 						/>
 					</div>
 					<div className="complete__icon-container">
 						<ReplayRoundedIcon
 							fontSize="inherit"
-							className="pointer-cursor complete__icon"
+							className="pointer-cursor icon-enlarge"
 							onClick={handleReplayIcon}
 						/>
 					</div>

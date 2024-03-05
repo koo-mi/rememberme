@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardInput from '../components/CardInput';
 import { useSession } from 'next-auth/react';
+import NewInputButton from '../components/NewInputButton';
 
 const NewCardSet = () => {
 	const router = useRouter();
@@ -54,22 +55,26 @@ const NewCardSet = () => {
 
 	return (
 		<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
-			<h1 className="font-semibold text-lg">Create New Card Set</h1>
+			<h1 className="font-semibold text-xl">Create New Card Set</h1>
 			<form className="flex flex-col gap-3" onSubmit={handleSubmit}>
 				{/* Title */}
 				<div className="flex flex-col gap-1">
-					<label htmlFor="title">Title:</label>
+					<label htmlFor="title" className="text-lg">
+						Title:
+					</label>
 					<input
-						className="rounded border border-black"
+						className="rounded border border-gray-400"
 						name="title"
 						type="text"
 					/>
 				</div>
 				{/* Description */}
-				<div className="flex flex-col gap-1 pb-5 border-b border-black">
-					<label htmlFor="description">Description:</label>
+				<div className="flex flex-col gap-1 pb-5 border-b border-gray-400">
+					<label htmlFor="description" className="text-lg">
+						Description:
+					</label>
 					<textarea
-						className="rounded border border-black"
+						className="rounded border border-gray-400"
 						name="description"
 						rows={4}
 					/>
@@ -84,14 +89,9 @@ const NewCardSet = () => {
 						removeInput={removeInput}
 					/>
 				))}
-				<div
-					className="flex justify-center items-center rounded border border-black"
-					onClick={addInput}
-				>
-					<p className="text-2xl">+</p>
-				</div>
+				<NewInputButton addInput={addInput} />
 				<div className="flex justify-end mt-3">
-					<button className="py-2 px-3 text-white bg-blue-600 rounded w-24">
+					<button className="py-2 px-3 text-white bg-blue-600 rounded w-24 hover:text-blue-600 hover:bg-blue-100 hover:font-semibold border border-blue-600">
 						Create
 					</button>
 				</div>

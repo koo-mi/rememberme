@@ -1,5 +1,6 @@
 import NavigateNextRoundedIcon from '@mui/icons-material/NavigateNextRounded';
 import NavigateBeforeRoundedIcon from '@mui/icons-material/NavigateBeforeRounded';
+import './NavigateCard.scss';
 
 const NavigateCard = ({
 	current,
@@ -18,12 +19,16 @@ const NavigateCard = ({
 	}
 
 	return (
-		<div className="flex justify-center items-center gap-5">
-			<NavigateBeforeRoundedIcon fontSize="large" onClick={handleBefore} />
-			<p>
+		<div className="flex justify-center items-center gap-5 m-2">
+			<div className="navigate__button">
+				<NavigateBeforeRoundedIcon fontSize="large" onClick={handleBefore} />
+			</div>
+			<p className="text-lg">
 				{current} / {total}
 			</p>
-			<NavigateNextRoundedIcon fontSize="large" onClick={handleNext} />
+			<div className="navigate__button navigate__button--right">
+				<NavigateNextRoundedIcon fontSize="large" onClick={handleNext} />
+			</div>
 		</div>
 	);
 };

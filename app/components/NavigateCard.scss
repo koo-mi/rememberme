@@ -1,0 +1,21 @@
+.navigate__button {
+	border-radius: 9999px;
+	border: 2px solid #d0d0d0;
+	padding: 0.16rem;
+	background-color: white;
+	position: relative;
+
+	& svg {
+		position: relative;
+		transform: translateX(-1px);
+	}
+
+	&--right svg {
+		position: relative;
+		transform: translateX(1px);
+	}
+
+	&:hover {
+		background-color: rgb(243, 243, 243);
+	}
+}

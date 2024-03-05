@@ -1,4 +1,4 @@
-import './RateCard.css';
+import './RateCard.scss';
 
 const RateCard = ({ changeCurrent, current, addToNextSet }) => {
 	function handleClick(e) {
@@ -22,13 +22,25 @@ const RateCard = ({ changeCurrent, current, addToNextSet }) => {
 
 	return (
 		<form className="flex justify-center items-center gap-5 pt-4">
-			<button value={1} onClick={handleClick}>
+			<button
+				className="rate__button bg-blue-200 border-blue-700 text-blue-900 font-semibold hover:bg-blue-300"
+				value={1}
+				onClick={handleClick}
+			>
 				Excellent
 			</button>
-			<button value={2} onClick={handleClick}>
+			<button
+				className="rate__button bg-green-200 border-green-700 text-green-900 font-semibold hover:bg-green-300"
+				value={2}
+				onClick={handleClick}
+			>
 				Good
 			</button>
-			<button value={3} onClick={handleClick}>
+			<button
+				className="rate__button bg-red-200 border-red-700 text-red-900 font-semibold hover:bg-red-300"
+				value={3}
+				onClick={handleClick}
+			>
 				Bad
 			</button>
 		</form>

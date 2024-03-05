@@ -1,5 +1,5 @@
 'use client';
-
+import './Header.scss';
 import MenuIcon from '@mui/icons-material/Menu';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRounded';
@@ -15,25 +15,25 @@ const Header = () => {
 				<Link href="/">
 					<MenuIcon />
 				</Link>
-				<div className="flex gap-1 justify-center items-center">
-					<div className="rounded-xl border border-gray-400 p-1 flex justify-center items-center bg-white">
+				<div className="flex gap-2 justify-center items-center">
+					<div className="header__button rounded-xl p-1 flex justify-center items-center bg-white">
 						<SearchRoundedIcon />
 					</div>
 					<Link
 						href="/newcardset"
-						className="rounded-xl border border-gray-400 p-1 flex justify-center items-center bg-white"
+						className="header__button rounded-xl p-1 flex justify-center items-center bg-white"
 					>
 						<AddCircleOutlineRoundedIcon />
 					</Link>
 					{session && session.user ? (
-						<Link href="api/auth/signout">
-							<div className="rounded-full border border-gray-400 w-20 py-1 flex justify-center items-center bg-white">
+						<Link href="/api/auth/signout">
+							<div className="rounded-full py-1 flex justify-center items-center bg-white signbutton">
 								<p>Sign Out</p>
 							</div>
 						</Link>
 					) : (
-						<Link href="api/auth/signin">
-							<div className="rounded-full border border-gray-400 w-20 py-1 flex justify-center items-center bg-white">
+						<Link href="/api/auth/signin">
+							<div className="rounded-full py-1 flex justify-center items-center bg-white signbutton">
 								<p>Sign In</p>
 							</div>
 						</Link>

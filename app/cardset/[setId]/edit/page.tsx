@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardInput from '@/app/components/CardInput';
+import NewInputButton from '@/app/components/NewInputButton';
 
 const EditCardSet = ({ params }: { params: { setId: string } }) => {
 	const router = useRouter();
@@ -83,13 +84,15 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 
 	return (
 		<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
-			<h1 className="font-semibold text-lg">Edit Card Set</h1>
+			<h1 className="font-semibold text-xl">Edit Card Set</h1>
 			<form className="flex flex-col gap-3" onSubmit={handleSubmit}>
 				{/* Title */}
 				<div className="flex flex-col gap-1">
-					<label htmlFor="title">Title:</label>
+					<label htmlFor="title" className="text-lg">
+						Title:
+					</label>
 					<input
-						className="rounded border border-black"
+						className="rounded border border-gray-400"
 						name="title"
 						type="text"
 						value={title}
@@ -99,10 +102,12 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 					/>
 				</div>
 				{/* Description */}
-				<div className="flex flex-col gap-1 pb-5 border-b border-black">
-					<label htmlFor="description">Description:</label>
+				<div className="flex flex-col gap-1 pb-5 border-b border-gray-400">
+					<label htmlFor="description" className="text-lg">
+						Description:
+					</label>
 					<textarea
-						className="rounded border border-black"
+						className="rounded border border-gray-400"
 						name="description"
 						rows={4}
 						value={description}
@@ -121,14 +126,9 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 						removeInput={removeInput}
 					/>
 				))}
-				<div
-					className="flex justify-center items-center rounded border border-black"
-					onClick={addInput}
-				>
-					<p className="text-2xl">+</p>
-				</div>
+				<NewInputButton addInput={addInput} />
 				<div className="flex justify-end mt-3">
-					<button className="py-2 px-3 text-white bg-blue-600 rounded w-24">
+					<button className="py-2 px-3 text-white bg-blue-600 rounded w-24 hover:text-blue-600 hover:bg-blue-100 hover:font-semibold border border-blue-600">
 						Edit
 					</button>
 				</div>

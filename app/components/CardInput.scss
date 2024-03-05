@@ -1,0 +1,16 @@
+input:is(:focus) + label {
+	color: #2563eb;
+	font-weight: 600;
+}
+
+.cardinput__qainput:focus {
+	outline: none;
+	border-bottom: 4px solid #2563eb;
+}
+
+.cardinput__full-container {
+	border-color: #9ca3af;
+	&:focus-within {
+		border-color: #2563eb;
+	}
+}

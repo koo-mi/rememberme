@@ -1,0 +1,15 @@
+.header__button {
+	&:hover {
+		outline: 3px solid #2563eb;
+		font-weight: 600;
+	}
+}
+
+.signbutton {
+	width: 90px;
+
+	&:hover {
+		outline: 3px solid #2563eb;
+		font-weight: 600;
+	}
+}

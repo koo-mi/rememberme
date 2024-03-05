@@ -123,7 +123,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 
 	return (
 		<>
-			<main className="flex flex-col p-4 gap-3 max-w-7xl m-auto">
+			<main className="flex flex-col p-5 sm:p-8 gap-3 max-w-6xl m-auto">
 				<div className="flex flex-col w-full gap-2">
 					{/* Main Content */}
 					{!complete ? (
@@ -149,25 +149,25 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 					{/* Info Container */}
 					<div className="border-t py-3">
 						{/* Title */}
-						<h1 className="font-semibold text-lg">{cardSetInfo.title}</h1>
+						<h1 className="font-semibold text-2xl mb-2">{cardSetInfo.title}</h1>
 
 						{/* Author */}
-						<div className="flex justify-between items-center mb-3">
-							<h2 className="text-sm">By {cardSetInfo.author}</h2>
+						<div className="flex justify-between items-center mb-5">
+							<h2>By {cardSetInfo.author}</h2>
 							<div className="flex gap-2">
 								<EditRoundedIcon
-									className="cursor-pointer"
+									className="cursor-pointer icon-enlarge"
 									onClick={handleEdit}
 								/>
 								<DeleteRoundedIcon
-									className="cursor-pointer"
+									className="cursor-pointer icon-enlarge"
 									onClick={handleDelete}
 								/>
 							</div>
 						</div>
 
 						{/* Description */}
-						<div className="bg-gray-200 rounded w-full p-2">
+						<div className="bg-white rounded w-full p-2">
 							<p className="text-sm">{cardSetInfo.description}</p>
 						</div>
 					</div>

@@ -21,7 +21,7 @@ const Card = ({ cardList, current }) => {
 	}
 
 	return (
-		<div className="card">
+		<div className="card h-64 sm:h-72 md:h-80 lg:h-96">
 			<div
 				className={`card__inner ${isFlipped ? 'flip' : ''}`}
 				onClick={handleCardFlip}
