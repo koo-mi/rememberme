@@ -6,13 +6,20 @@ import HelpOutlineRoundedIcon from '@mui/icons-material/HelpOutlineRounded';
 
 const Card = ({ cardList, current }) => {
 	const [isFlipped, setIsFlipped] = useState(false);
-	const [isStarred, setIsStarred] = useState(false);
+	const [isStarred, setIsStarred] = useState(cardList[current - 1].isStar);
 
 	function handleCardFlip() {
 		setIsFlipped(!isFlipped);
 	}
 
-	function handleStar() {
+	async function handleStar() {
+		await fetch('/api/flashcard/star', {
+			method: 'PUT',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({ isStar: !isStarred, id: cardList[current - 1].id })
+		});
 		setIsStarred(!isStarred);
 	}
 

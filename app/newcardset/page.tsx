@@ -8,8 +8,20 @@ import NewInputButton from '../components/NewInputButton';
 const NewCardSet = () => {
 	const router = useRouter();
 	const { data: session } = useSession();
+	const [isLoading, setIsLoading] = useState(true);
+
+	useEffect(() => {
+		if (!session) {
+			router.push('/api/auth/signin');
+		}
+		setIsLoading(false);
+	}, [session]);
 
 	const [quizInput, setQuizInput] = useState([{ question: '', answer: '' }]);
+
+	if (isLoading || !session) {
+		return <p></p>;
+	}
 
 	function changeQuizInput(i: number, question: boolean, change: string) {
 		const newInput = [...quizInput];
@@ -65,6 +77,7 @@ const NewCardSet = () => {
 					<input
 						className="rounded border border-gray-400"
 						name="title"
+						id="title"
 						type="text"
 					/>
 				</div>
@@ -76,6 +89,7 @@ const NewCardSet = () => {
 					<textarea
 						className="rounded border border-gray-400"
 						name="description"
+						id="description"
 						rows={4}
 					/>
 				</div>

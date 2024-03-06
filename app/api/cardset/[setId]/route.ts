@@ -2,7 +2,7 @@ import prisma from '../../../../db';
 import { NextResponse } from 'next/server';
 import checkCardSetAccess from '@/lib/checkCardSetAccess';
 
-/* Get cardSet Info by ID */
+/* GET cardSet Info by ID */
 export async function GET(req: Request) {
 	const cardSetId = Number(req.headers.get('cardSetId'));
 	const userId = req.headers.get('userId');

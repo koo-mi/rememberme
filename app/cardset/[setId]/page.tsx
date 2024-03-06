@@ -47,25 +47,17 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 	useEffect(() => {
 		async function getCardSetData() {
 			try {
-				const cardRes = await fetch('/api/flashcard', {
+				const cardRes = await fetch('/api/cardset', {
 					headers: {
 						cardSetId: params.setId,
 						id: session?.user.id || ''
 					}
 				});
-				const cardData = await cardRes.json();
-				setCardList(cardData);
-				setOriginalSet(cardData);
-				setTotal(cardData.length);
-
-				const setRes = await fetch('/api/cardset', {
-					headers: {
-						cardSetId: params.setId
-					}
-				});
-				const setData = await setRes.json();
-				setCardSetInfo(setData);
-
+				const dat = await cardRes.json();
+				setCardSetInfo(dat.cardSetData);
+				setCardList(dat.cardData);
+				setOriginalSet(dat.cardData);
+				setTotal(dat.cardData.length);
 				setIsLoading(false);
 			} catch (e) {
 				console.log(e);
@@ -115,7 +107,7 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 	}
 
 	async function handleDelete() {
-		const res = await fetch(`/api/cardset/${params.setId}`, {
+		await fetch(`/api/cardset/${params.setId}`, {
 			method: 'DELETE',
 			headers: {
 				cardSetId: params.setId,
