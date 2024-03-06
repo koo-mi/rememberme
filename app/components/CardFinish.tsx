@@ -18,7 +18,7 @@ const CardFinish = ({ replay }) => {
 	}
 
 	return (
-		<div className="card">
+		<div className="card h-64 sm:h-72 md:h-80 lg:h-96">
 			<div className="card__face--complete bg-white">
 				<h3 className="font-semibold">
 					Great job! You&apos;ve finished all the cards.

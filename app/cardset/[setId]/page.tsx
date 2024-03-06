@@ -46,26 +46,30 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 
 	useEffect(() => {
 		async function getCardSetData() {
-			const cardRes = await fetch('/api/flashcard', {
-				headers: {
-					cardSetId: params.setId,
-					id: session?.user.id || ''
-				}
-			});
-			const cardData = await cardRes.json();
-			setCardList(cardData);
-			setOriginalSet(cardData);
-			setTotal(cardData.length);
+			try {
+				const cardRes = await fetch('/api/flashcard', {
+					headers: {
+						cardSetId: params.setId,
+						id: session?.user.id || ''
+					}
+				});
+				const cardData = await cardRes.json();
+				setCardList(cardData);
+				setOriginalSet(cardData);
+				setTotal(cardData.length);
 
-			const setRes = await fetch('/api/cardset', {
-				headers: {
-					cardSetId: params.setId
-				}
-			});
-			const setData = await setRes.json();
-			setCardSetInfo(setData);
+				const setRes = await fetch('/api/cardset', {
+					headers: {
+						cardSetId: params.setId
+					}
+				});
+				const setData = await setRes.json();
+				setCardSetInfo(setData);
 
-			setIsLoading(false);
+				setIsLoading(false);
+			} catch (e) {
+				console.log(e);
+			}
 		}
 
 		getCardSetData();
@@ -114,7 +118,8 @@ export default function CardSet({ params }: { params: { setId: string } }) {
 		const res = await fetch(`/api/cardset/${params.setId}`, {
 			method: 'DELETE',
 			headers: {
-				cardSetId: params.setId
+				cardSetId: params.setId,
+				userId: session?.user.id
 			}
 		});
 

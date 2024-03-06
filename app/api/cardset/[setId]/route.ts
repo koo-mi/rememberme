@@ -1,28 +1,23 @@
 import prisma from '../../../../db';
 import { NextResponse } from 'next/server';
-
-/* Delete cardSet by ID */
-export async function DELETE(req: Request) {
-	const cardSetId = Number(req.headers.get('cardSetId'));
-
-	await prisma.cardSet.delete({
-		where: {
-			id: cardSetId
-		}
-	});
-
-	await prisma.recent.deleteMany({
-		where: {
-			cardSetId
-		}
-	});
-
-	return NextResponse.json({ message: 'complete' });
-}
+import checkCardSetAccess from '@/lib/checkCardSetAccess';
 
 /* Get cardSet Info by ID */
 export async function GET(req: Request) {
-	const cardSetId = req.headers.get('cardSetId');
+	const cardSetId = Number(req.headers.get('cardSetId'));
+	const userId = req.headers.get('userId');
+
+	// Validation
+	const cardSetData = await checkCardSetAccess(cardSetId, userId, false);
+
+	if (cardSetData === 404) {
+		return NextResponse.json(
+			{ message: 'Unable to find the cardSet.' },
+			{ status: 404 }
+		);
+	} else if (cardSetData === 403) {
+		return NextResponse.json({ message: 'Access Denied.' }, { status: 403 });
+	}
 
 	const setInfo = await prisma.cardSet.findFirst({
 		where: {
@@ -45,8 +40,22 @@ export async function GET(req: Request) {
 /* For Editing CardSet */
 export async function PUT(req: Request) {
 	const cardSetId = Number(req.headers.get('cardSetId'));
-	const { title, description, cards, userId, isPrivate, deleted } =
-		await req.json();
+	const userId = req.headers.get('userId');
+
+	// Validation
+	const cardSetData = await checkCardSetAccess(cardSetId, userId, false);
+
+	if (cardSetData === 404) {
+		return NextResponse.json(
+			{ message: 'Unable to find the cardSet.' },
+			{ status: 404 }
+		);
+	} else if (cardSetData === 403) {
+		return NextResponse.json({ message: 'Access Denied.' }, { status: 403 });
+	}
+
+	// Retrieve body
+	const { title, description, cards, isPrivate, deleted } = await req.json();
 	const total = cards.length;
 
 	// Update the cardSet Info - title, description, total
@@ -97,4 +106,36 @@ export async function PUT(req: Request) {
 	});
 
 	return NextResponse.json(setInfo);
+}
+
+/* Delete cardSet by ID */
+export async function DELETE(req: Request) {
+	const cardSetId = Number(req.headers.get('cardSetId'));
+	const userId = req.headers.get('userId');
+
+	// Validation
+	const cardSetData = await checkCardSetAccess(cardSetId, userId, false);
+
+	if (cardSetData === 404) {
+		return NextResponse.json(
+			{ message: 'Unable to find the cardSet.' },
+			{ status: 404 }
+		);
+	} else if (cardSetData === 403) {
+		return NextResponse.json({ message: 'Access Denied.' }, { status: 403 });
+	}
+
+	await prisma.cardSet.delete({
+		where: {
+			id: cardSetId
+		}
+	});
+
+	await prisma.recent.deleteMany({
+		where: {
+			cardSetId
+		}
+	});
+
+	return NextResponse.json({ message: 'complete' });
 }

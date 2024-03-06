@@ -1,9 +1,22 @@
 import prisma from '../../../db';
 import { NextResponse } from 'next/server';
+import checkCardSetAccess from '@/lib/checkCardSetAccess';
 
 export async function GET(req: Request) {
 	const cardSetId = Number(req.headers.get('cardSetId'));
-	const id = req.headers.get('id');
+	const userId = req.headers.get('id');
+
+	// Get cardSet Data with validation
+	const cardSetData = await checkCardSetAccess(cardSetId, userId, true);
+
+	if (cardSetData === 404) {
+		return NextResponse.json(
+			{ message: 'Unable to find the cardSet.' },
+			{ status: 404 }
+		);
+	} else if (cardSetData === 403) {
+		return NextResponse.json({ message: 'Access Denied' }, { status: 403 });
+	}
 
 	const cardData = await prisma.card.findMany({
 		where: {
@@ -11,11 +24,11 @@ export async function GET(req: Request) {
 		}
 	});
 
-	if (id) {
+	if (userId) {
 		// Check if this card set exists in Recent table.
 		const cardSetExist = await prisma.user.findFirst({
 			where: {
-				id
+				id: userId
 			},
 			select: {
 				recent: {
@@ -30,7 +43,7 @@ export async function GET(req: Request) {
 		if (cardSetExist!.recent.length) {
 			await prisma.recent.updateMany({
 				where: {
-					userId: id,
+					userId,
 					cardSetId
 				},
 				data: {
@@ -41,7 +54,7 @@ export async function GET(req: Request) {
 			// If not, create the entry
 			await prisma.recent.create({
 				data: {
-					userId: id,
+					userId,
 					cardSetId
 				}
 			});

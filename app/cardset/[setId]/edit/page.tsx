@@ -3,9 +3,11 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CardInput from '@/app/components/CardInput';
 import NewInputButton from '@/app/components/NewInputButton';
+import { useSession } from 'next-auth/react';
 
 const EditCardSet = ({ params }: { params: { setId: string } }) => {
 	const router = useRouter();
+	const { data: session } = useSession();
 
 	const [isLoading, setIsLoading] = useState(true);
 	const [title, setTitle] = useState('');
@@ -20,7 +22,8 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 			const res = await fetch(`/api/cardset/${params.setId}`, {
 				method: 'GET',
 				headers: {
-					cardSetId: params.setId
+					cardSetId: params.setId,
+					userId: session?.user.id
 				}
 			});
 			const cardSetData = await res.json();
@@ -32,7 +35,7 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 		}
 
 		getSetInfo();
-	}, []);
+	}, [session]);
 
 	if (isLoading) {
 		return;
@@ -74,7 +77,8 @@ const EditCardSet = ({ params }: { params: { setId: string } }) => {
 			method: 'PUT',
 			headers: {
 				'Content-Type': 'application/json',
-				cardSetId: params.setId
+				cardSetId: params.setId,
+				userId: session?.user.id
 			},
 			body: JSON.stringify(data)
 		});
